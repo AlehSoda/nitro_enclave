@@ -1,0 +1,17 @@
+# Use a lightweight image with g++ installed, such as Alpine with g++
+FROM alpine:3.12
+
+# Install the necessary build tools and dependencies
+RUN apk add --no-cache g++ make
+
+# Copy the C++ source code to the container
+COPY vsock_client.cpp /app/vsock_client.cpp
+
+# Set the working directory
+WORKDIR /app
+
+# Compile the client code
+RUN g++ -o vsock_client vsock_client.cpp
+
+# Default command to run the client (can be overridden)
+CMD ["./vsock_client", "client", "3", "5005"]
